@@ -1,12 +1,12 @@
 import telebot
 from telebot import types
 import time
+import requests
 from langchain.memory import ConversationBufferMemory
 from telegram_bot.auth_token import bot_token
 from telegram_bot.bot.message_interface import MessageView
 from llm.model.giga_chat import GiGaChatBot
 from llm.prompt.template import join_prompt
-
 
 # create telegram bot:
 bot = telebot.TeleBot(bot_token)
@@ -118,6 +118,23 @@ def giga_answer(message):
         bot.send_message(message.chat.id, message_view.error_message)
 
 
+@bot.message_handler(content_types=['document'])
+def giga_document_answer(message):
+    try:
+        if 'txt' == message.document.file_name.split('.')[1]:
+            file_info = bot.get_file(message.document.file_id)
+            file_path = f"https://api.telegram.org/file/bot{bot_token}/{file_info.file_path}"
+            response = requests.get(file_path)
+            text = response.text
+            query = f"{message_view.redactor_txt_task_message}{text}"
+
+            giga_response = giga_chat_bot.giga_dialog(user_message=query)
+
+            bot.send_message(message.chat.id, giga_response)
+    except Exception as _ex:
+        print(f"[def giga_document_answer(message)] : \n"
+              f"{_ex}")
+        bot.send_message(message.chat.id, "Что то пошло не так")
+
+
 bot.polling(none_stop=True)
-
-
