@@ -4,20 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e827c021-53e7-41c7-b5a4-449bd211d828" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="e827c021-53e7-41c7-b5a4-449bd211d828" name="Changes" comment="super giga bot + txt">
+      <change afterPath="$PROJECT_DIR$/database/manage.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/llm/model/auth_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/llm/model/auth_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/llm/model/giga_chat.py" beforeDir="false" afterPath="$PROJECT_DIR$/llm/model/giga_chat.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/llm/prompt/system/strana_development.txt" beforeDir="false" afterPath="$PROJECT_DIR$/llm/prompt/system/strana_development.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/llm/prompt/template.py" beforeDir="false" afterPath="$PROJECT_DIR$/llm/prompt/template.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/llm/prompt/user/corrector.txt" beforeDir="false" afterPath="$PROJECT_DIR$/llm/prompt/user/corrector.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/llm/prompt/user/email.txt" beforeDir="false" afterPath="$PROJECT_DIR$/llm/prompt/user/email.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/llm/prompt/user/redactor.txt" beforeDir="false" afterPath="$PROJECT_DIR$/llm/prompt/user/redactor.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/telegram_bot/auth_token.py" beforeDir="false" afterPath="$PROJECT_DIR$/telegram_bot/auth_token.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/telegram_bot/bot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/telegram_bot/bot/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/telegram_bot/bot/message_interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/telegram_bot/bot/message_interface.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/preprocessing_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/preprocessing_data.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,9 +24,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2gHLZfynia1DAiTVnJ4nhTkAqBj" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -49,6 +39,7 @@
     "Python.giga_chat.executor": "Run",
     "Python.main (1).executor": "Run",
     "Python.main_bot.executor": "Run",
+    "Python.manage.executor": "Run",
     "Python.message_interface.executor": "Run",
     "Python.template.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
@@ -106,7 +97,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="manage" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="GiGaTeleBot" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -115,11 +106,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/telegram_bot" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/database" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="C:\Users\andre\GiGaTeleBot\telegram_bot\bot\main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/database/manage.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -175,10 +166,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main (1)" />
+        <item itemvalue="Python.manage" />
         <item itemvalue="Python.template" />
         <item itemvalue="Python.message_interface" />
         <item itemvalue="Python.giga_chat" />
-        <item itemvalue="Python.main_bot" />
       </list>
     </recent_temporary>
   </component>
@@ -198,6 +189,28 @@
       <option name="presentableId" value="Default" />
       <updated>1715349614119</updated>
     </task>
+    <task id="LOCAL-00001" summary="super puper bot">
+      <option name="closed" value="true" />
+      <created>1715538601771</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1715538601771</updated>
+    </task>
+    <task id="LOCAL-00002" summary="super giga bot + txt">
+      <option name="closed" value="true" />
+      <created>1715544257313</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1715544257313</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="super puper bot" />
+    <MESSAGE value="super giga bot + txt" />
+    <option name="LAST_COMMIT_MESSAGE" value="super giga bot + txt" />
   </component>
 </project>

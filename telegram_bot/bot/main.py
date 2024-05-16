@@ -7,6 +7,7 @@ from telegram_bot.auth_token import bot_token
 from telegram_bot.bot.message_interface import MessageView
 from llm.model.giga_chat import GiGaChatBot
 from llm.prompt.template import join_prompt
+from database.manage import db_add_user_info, db_add_comments, check_user_id_exists, db_add_mark
 
 # create telegram bot:
 bot = telebot.TeleBot(bot_token)
@@ -37,7 +38,8 @@ def start(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     info_button = types.KeyboardButton("Инструкция")
     roles_button = types.KeyboardButton("Специалисты")
-    markup.add(info_button, roles_button)
+    feedback_button = types.KeyboardButton("Обратная связь")
+    markup.add(info_button, roles_button, feedback_button)
 
     bot.send_message(message.chat.id, message_view.start_message, reply_markup=markup,
                      parse_mode='Markdown')
@@ -52,6 +54,72 @@ def about_project(message):
 def back_to_main_menu(message):
     bot.send_message(message.chat.id, message_view.back_message)
     start(message)
+
+
+@bot.message_handler(func=lambda message: message.text == 'Обратная связь')
+def feedback_menu(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    comments_button = types.KeyboardButton("Оставить отзыв")
+    stars_button = types.KeyboardButton("Поставить звезду")
+    back_button = types.KeyboardButton("Назад ↩")
+    markup.add(comments_button, stars_button, back_button)
+    bot.send_message(message.chat.id, "Здесь вы можете предложить свои идеи по улучшению проекта, \n"
+                                      "а также поставить оценку нашему проекту", reply_markup=markup)
+    user_menu[message.chat.id] = "main"
+
+    user_id = message.from_user.id
+    user_name = message.from_user.first_name
+    user_surname = message.from_user.last_name
+    username = message.from_user.username
+
+    if not check_user_id_exists(user_id=user_id):
+        db_add_user_info(
+            user_id=user_id,
+            user_name=user_name,
+            user_surname=user_surname,
+            username=username
+        )
+
+
+@bot.message_handler(func=lambda message: message.text == 'Оставить отзыв')
+def write_comment(message):
+    bot.send_message(message.chat.id, "Мы будем рады каждому оставленному отзыву")
+    bot.register_next_step_handler(message, save_comment)
+
+
+def save_comment(message):
+    user_id = message.chat.id
+    db_add_comments(
+        user_id=user_id,
+        user_comment=message.text
+    )
+    bot.send_message(user_id, "Благодарим за оставленный отзыв")
+
+
+@bot.message_handler(func=lambda message: message.text == 'Поставить звезду')
+def stars_menu(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    star_1_button = types.KeyboardButton("1")
+    star_2_button = types.KeyboardButton("2")
+    star_3_button = types.KeyboardButton("3")
+    star_4_button = types.KeyboardButton("4")
+    star_5_button = types.KeyboardButton("5")
+    back_button = types.KeyboardButton("Назад ↩")
+    markup.add(star_1_button, star_2_button, star_3_button, star_4_button, star_5_button, back_button)
+    bot.send_message(message.chat.id, "Мы будем очень рады вашей оценке", reply_markup=markup)
+    user_menu[message.chat.id] = "main"
+
+
+# @bot.message_handler(func=lambda message: message.text.isdigit() and 1 <= int(message.text) <= 5)
+@bot.message_handler(regexp=r"\d+")
+def give_stars_mark(message):
+    user_id = message.from_user.id
+    count_stars = int(message.text)
+    db_add_mark(
+        user_id=user_id,
+        user_mark=count_stars
+    )
+    bot.send_message(message.chat.id, "Благодарим за оставленную оценку")
 
 
 @bot.message_handler(func=lambda message: message.text == 'Специалисты')
