@@ -1,4 +1,5 @@
 import sqlite3
+import csv
 
 
 def db_connect():
@@ -52,4 +53,11 @@ def db_add_mark(user_id, user_mark):
         (user_mark, user_id)
     )
     connect.commit()
+
+
+def get_db_data_to_array():
+    connect, cursor = db_connect()
+    cursor.execute('SELECT username, comment, mark FROM comments')
+    data = cursor.fetchall()
+    return data
 

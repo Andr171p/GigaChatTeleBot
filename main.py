@@ -7,7 +7,8 @@ from telegram_bot.auth_token import bot_token
 from telegram_bot.bot.message_interface import MessageView
 from llm.model.giga_chat import GiGaChatBot
 from llm.prompt.template import join_prompt
-from database.manage import db_add_user_info, db_add_comments, check_user_id_exists, db_add_mark
+from telegram_bot.config import get_feedback_access_id
+from database.manage import db_add_user_info, db_add_comments, check_user_id_exists, db_add_mark, get_db_data_to_array
 
 # create telegram bot:
 bot = telebot.TeleBot(bot_token)
@@ -24,9 +25,10 @@ giga_chat_bot.create_giga_model()
 
 # init prompts dict:
 prompts = join_prompt(
-    system_path=r"C:\Users\andre\GiGaTeleBot\llm\prompt\system\strana_development.txt",
-    user_directory_path=r"C:\Users\andre\GiGaTeleBot\llm\prompt\user"
+    system_path=r"GiGaTeleBot/llm/prompt/system/strana_development.txt",
+    user_directory_path=r"GiGaTeleBot/llm/prompt/user"
 )
+
 
 # init message interface:
 message_view = MessageView()
@@ -60,9 +62,16 @@ def back_to_main_menu(message):
 def feedback_menu(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     comments_button = types.KeyboardButton("Оставить отзыв")
-    stars_button = types.KeyboardButton("Поставить звезду")
+    stars_button = types.KeyboardButton("Поставить оценку")
+    comments_view_button = types.KeyboardButton("Смотреть комментарии")
     back_button = types.KeyboardButton("Назад ↩")
-    markup.add(comments_button, stars_button, back_button)
+    # check user_id for view comments access:
+    access_id = get_feedback_access_id()
+    if message.from_user.id in access_id:
+        markup.add(comments_button, stars_button, comments_view_button, back_button)
+    else:
+        markup.add(comments_button, stars_button, back_button)
+
     bot.send_message(message.chat.id, "Здесь вы можете предложить свои идеи по улучшению проекта, \n"
                                       "а также поставить оценку нашему проекту", reply_markup=markup)
     user_menu[message.chat.id] = "main"
@@ -81,6 +90,16 @@ def feedback_menu(message):
         )
 
 
+@bot.message_handler(func=lambda message: message.text == 'Смотреть комментарии')
+def view_comments(message):
+    comments_data = get_db_data_to_array()
+    for row in comments_data:
+        time.sleep(3)
+        bot.send_message(message.chat.id, f"Пользователь: {row[0]}\n"
+                                          f"Комментарий: {row[1]}\n"
+                                          f"Оценка: {row[2]}")
+
+
 @bot.message_handler(func=lambda message: message.text == 'Оставить отзыв')
 def write_comment(message):
     bot.send_message(message.chat.id, "Мы будем рады каждому оставленному отзыву")
@@ -96,7 +115,7 @@ def save_comment(message):
     bot.send_message(user_id, "Благодарим за оставленный отзыв")
 
 
-@bot.message_handler(func=lambda message: message.text == 'Поставить звезду')
+@bot.message_handler(func=lambda message: message.text == 'Поставить оценку')
 def stars_menu(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     star_1_button = types.KeyboardButton("1")
@@ -206,3 +225,4 @@ def giga_document_answer(message):
 
 
 bot.polling(none_stop=True)
+
