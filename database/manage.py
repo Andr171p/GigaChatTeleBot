@@ -4,7 +4,7 @@ import csv
 
 def db_connect():
     connect = sqlite3.connect(
-        r'C:\Users\andre\GiGaTeleBot\database\feedback_db',
+        r'\app\GiGaChatTeleBot\database\feedback_db',
         check_same_thread=False
     )
     cursor = connect.cursor()
