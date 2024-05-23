@@ -5,8 +5,8 @@ from langchain.memory import ConversationBufferMemory
 from langchain.schema import HumanMessage, SystemMessage
 from langchain.memory.prompt import ENTITY_MEMORY_CONVERSATION_TEMPLATE
 import base64
-from llm.model.auth_data import client_secret, client_id
-from utils.preprocessing_data import txt_to_str
+from GiGaChatTeleBot.llm.model.auth_data import client_secret, client_id
+from GiGaChatTeleBot.utils.preprocessing_data import txt_to_str
 
 
 class GiGaChatBot:
