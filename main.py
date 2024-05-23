@@ -25,8 +25,8 @@ giga_chat_bot.create_giga_model()
 
 # init prompts dict:
 prompts = join_prompt(
-    system_path=r"GiGaTeleBot/llm/prompt/system/strana_development.txt",
-    user_directory_path=r"GiGaTeleBot/llm/prompt/user"
+    system_path=r"C:\Users\andre\GiGaTeleBot\llm\prompt\system\strana_development.txt",
+    user_directory_path=r"C:\Users\andre\GiGaTeleBot\llm\prompt\user"
 )
 
 
@@ -62,15 +62,15 @@ def back_to_main_menu(message):
 def feedback_menu(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     comments_button = types.KeyboardButton("Оставить отзыв")
-    stars_button = types.KeyboardButton("Поставить оценку")
+    # stars_button = types.KeyboardButton("Поставить оценку")
     comments_view_button = types.KeyboardButton("Смотреть комментарии")
     back_button = types.KeyboardButton("Назад ↩")
     # check user_id for view comments access:
     access_id = get_feedback_access_id()
     if message.from_user.id in access_id:
-        markup.add(comments_button, stars_button, comments_view_button, back_button)
+        markup.add(comments_button, comments_view_button, back_button)
     else:
-        markup.add(comments_button, stars_button, back_button)
+        markup.add(comments_button, back_button)
 
     bot.send_message(message.chat.id, "Здесь вы можете предложить свои идеи по улучшению проекта, \n"
                                       "а также поставить оценку нашему проекту", reply_markup=markup)
@@ -96,8 +96,7 @@ def view_comments(message):
     for row in comments_data:
         time.sleep(3)
         bot.send_message(message.chat.id, f"Пользователь: {row[0]}\n"
-                                          f"Комментарий: {row[1]}\n"
-                                          f"Оценка: {row[2]}")
+                                          f"Комментарий: {row[1]}\n")
 
 
 @bot.message_handler(func=lambda message: message.text == 'Оставить отзыв')
@@ -115,7 +114,7 @@ def save_comment(message):
     bot.send_message(user_id, "Благодарим за оставленный отзыв")
 
 
-@bot.message_handler(func=lambda message: message.text == 'Поставить оценку')
+'''@bot.message_handler(func=lambda message: message.text == 'Поставить оценку')
 def stars_menu(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     star_1_button = types.KeyboardButton("1")
@@ -126,19 +125,22 @@ def stars_menu(message):
     back_button = types.KeyboardButton("Назад ↩")
     markup.add(star_1_button, star_2_button, star_3_button, star_4_button, star_5_button, back_button)
     bot.send_message(message.chat.id, "Мы будем очень рады вашей оценке", reply_markup=markup)
-    user_menu[message.chat.id] = "main"
+    user_menu[message.chat.id] = "main"'''
 
 
-# @bot.message_handler(func=lambda message: message.text.isdigit() and 1 <= int(message.text) <= 5)
-@bot.message_handler(regexp=r"\d+")
+'''@bot.message_handler(regexp=r"\d+")
 def give_stars_mark(message):
     user_id = message.from_user.id
-    count_stars = int(message.text)
-    db_add_mark(
-        user_id=user_id,
-        user_mark=count_stars
-    )
-    bot.send_message(message.chat.id, "Благодарим за оставленную оценку")
+    try:
+        count_stars = int(message.text)
+        db_add_mark(
+            user_id=user_id,
+            user_mark=count_stars
+        )
+        bot.send_message(message.chat.id, "Благодарим за оставленную оценку")
+    except Exception as _ex:
+        print(_ex)
+        bot.send_message(message.chat.id, "Вы должны ввести число")'''
 
 
 @bot.message_handler(func=lambda message: message.text == 'Специалисты')

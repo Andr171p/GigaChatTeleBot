@@ -57,7 +57,7 @@ def db_add_mark(user_id, user_mark):
 
 def get_db_data_to_array():
     connect, cursor = db_connect()
-    cursor.execute('SELECT username, comment, mark FROM comments')
+    cursor.execute('SELECT username, comment FROM comments')
     data = cursor.fetchall()
     return data
 
